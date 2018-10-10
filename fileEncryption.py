@@ -9,7 +9,6 @@ from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 #globals
 
 key = ChaCha20Poly1305.generate_key()
-print(key)
 #functions
 
 #In this method, you will generate a 16 Bytes IV, and encrypt the message using the key
@@ -17,10 +16,11 @@ print(key)
 #You return an error if the len(key) < 32 (i.e., the key has to be 32 bytes= 256 bits).
 
 def Myencrypt(msg,key):
+    chacha = ChaCha20Poly1305(key)
+    nonce = os.urandom(12)
+    ct = chacha.encrypt(nonce, data, aad)
 
-    if(len(key > 32)):
-        print("Invalid key, length must be 32 bytes (256bits)")
-    return 0
+    return ct
 
 #In this method, you'll generate a 32Byte key. You open and read the file as a string.
 #You then call the above method to encrypt your file using the key you generated.
@@ -36,3 +36,10 @@ def invertMyfileEncrypt():
     return 0
 
 #main
+
+message = input("Enter the message you would like to encrypt"  + "\n")
+q = False
+
+#(C,IV) = Myencrypt(message, key)
+
+Myencrypt(message, key)
